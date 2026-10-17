@@ -1,0 +1,2 @@
+Meter ID,Service Point ID,Meter Name,Serial Number,Unit,Daily Limit,Active
+a03EXAMPLE000001,a01EXAMPLE000001,Example meter,DEMO-IMPORT-METER,kWh,400,true

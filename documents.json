@@ -1,11 +1,50 @@
 [
   {
-    "name": "example",
-    "title": "TODO(author): the first document this industry must produce",
-    "for_each": "select gen_random_uuid() as id, 'Example' as name",
+    "name": "account-review",
+    "title": "Commercial account review draft",
+    "for_each": "select id,name from accounts where not archived order by name",
     "file": "name",
     "sections": [
-      { "title": "Details", "sql": "select 'replace me' as item, $1::text as record_id" }
+      {
+        "title": "Account record",
+        "sql": "select name,owner,contact_email,reviewed_on from accounts where id=$1"
+      },
+      {
+        "title": "Service points",
+        "sql": "select name,identifier,address,commodity,status from service_points where account_id=$1"
+      },
+      {
+        "title": "Agreement dates",
+        "sql": "select g.name,g.start_on,g.end_on,g.end_on-g.notice_days as notice_on from agreements g join service_points p on p.id=g.point_id where p.account_id=$1"
+      },
+      {
+        "title": "Service cases",
+        "sql": "select c.name,c.status,c.due_on,c.resolution from cases c join service_points p on p.id=c.point_id where p.account_id=$1"
+      }
+    ]
+  },
+  {
+    "name": "case-summary",
+    "title": "Case response preparation draft",
+    "for_each": "select id,name from cases order by name",
+    "file": "name",
+    "sections": [
+      {
+        "title": "Recorded facts",
+        "sql": "select c.name,c.category,c.opened_on,c.due_on,c.status,c.resolution,p.name as site,p.identifier from cases c join service_points p on p.id=c.point_id where c.id=$1"
+      }
+    ]
+  },
+  {
+    "name": "renewal-brief",
+    "title": "Agreement renewal brief draft",
+    "for_each": "select id,name from agreements where status='active' order by name",
+    "file": "name",
+    "sections": [
+      {
+        "title": "Dates to confirm",
+        "sql": "select agreement,account,site,identifier,start_on,end_on,notice_on,annual_kwh from v_renewals where id=$1"
+      }
     ]
   }
 ]

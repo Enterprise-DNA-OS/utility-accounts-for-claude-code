@@ -1,14 +1,13 @@
 ---
-description: Make this system yours in plain language. Add a field, rename stages, change a rule, add a column to a document. Writes the migration, applies it, updates the commands that touch it.
+description: "Change fields, workflow rules or documents in plain language"
 ---
 
-The operator will describe a change in their own words, for example "add a PO number to every order", "our stages are Enquiry, Site Visit, Quoted, Booked, Done", "invoices are due in 14 days not 20", "put the account manager on the client statement".
+# Change fields, workflow rules or documents in plain language
 
-1. Read `CLAUDE.md`, the current schema in `supabase/migrations/`, and any command or document that touches the thing being changed. Say back in one line what you are about to change and where.
-2. Write the next numbered migration in `supabase/migrations/` (never edit an applied one). Keep names plain and lowercase. Default new columns sensibly so existing rows stay valid.
-3. Run `npm run migrate`. If it fails, fix the SQL and run it again.
-4. Update every place the change shows up: the CLI output, the affected slash commands, `views.json`, the document templates, the import mapping, and the README command table.
-5. Run `npm test`. Add an assertion for the new behaviour if the change is visible in a command's output.
-6. Update `brand.json` if the change is a branding one (business name, logo, colours) instead of a schema one, and rerun `npm run docs` or `npm run view` to show it.
+Read CLAUDE.md. Use only records returned by the CLI. Do not infer a supply status from an account record.
 
-Report in three lines: what changed, the migration file, the commands that now show it. Never delete a column or a table without an explicit yes in this session.
+Translate the request into a bounded change. Read the current migration, CLI, import mapping, tests and affected document specs. Describe what will change, including existing records.
+
+Add the next numbered migration under `supabase/migrations/`, never edit an applied migration. Use reversible additions where possible. Keep UUID keys, updated_at triggers, audit events, RLS and invoker views. Add the field to the CLI allowlist and export/import mapping if required. Add a meaningful regression test for the changed behaviour.
+
+Run `npm test` before applying to working data. Make a private export first, then `npm run migrate`. Run the affected command, regenerate any document and show the result. Never change supply, delete history, or connect a live service without explicit operator authority.

@@ -1,13 +1,42 @@
 [
   {
     "name": "week",
-    "title": "This week",
-    "subtitle": "Utility Accounts for Claude Code: what needs attention, rendered by npm run view",
+    "title": "Utility service week",
+    "subtitle": "Decisions from recorded commercial account data",
     "sections": [
       {
         "title": "Needs attention",
-        "note": "TODO(author): point this at the industry's attention view (overdue, stuck, quiet).",
-        "sql": "select 'replace me' as item, 'TODO(author)' as why"
+        "sql": "select * from v_attention order by kind,reference"
+      },
+      {
+        "title": "Response queue",
+        "sql": "select source_id,subject,account,owner,due_on,days_overdue from v_case_queue order by due_on"
+      }
+    ]
+  },
+  {
+    "name": "renewals",
+    "title": "Agreement review",
+    "subtitle": "Dates and coverage, not a switching instruction",
+    "sections": [
+      {
+        "title": "Notice windows",
+        "sql": "select agreement,account,site,end_on,notice_on,days_left from v_renewals order by end_on"
+      }
+    ]
+  },
+  {
+    "name": "readings",
+    "title": "Meter reading review",
+    "subtitle": "Cumulative register history; estimated intervals are not settled usage",
+    "sections": [
+      {
+        "title": "Exceptions",
+        "sql": "select meter,site,unit,read_on,per_day,issue from v_reading_exceptions order by meter"
+      },
+      {
+        "title": "History",
+        "sql": "select meter,site,read_on,kind,unit,consumption,per_day from v_usage order by meter,read_on"
       }
     ]
   }

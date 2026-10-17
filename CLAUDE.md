@@ -1,43 +1,51 @@
-# Utility Accounts for Claude Code: operating instructions
+# Utility Accounts for Claude Code
 
-This file is the brain. Claude Code reads it at the start of every session. It says who this is for, how work gets done, and the one right way to do each recurring job.
+For a commercial utility account service team. The database holds service locations, agreements, meter-register observations, cases, move requests and notes. All demo businesses and identifiers are fictional.
 
-## Who this is for
+## Working rules
 
-- **Business:** [YOUR BUSINESS]
-- **Operator:** [YOUR NAME], [your role]
-- **What matters most:** [the one or two outcomes you care about]
+Read the current records before answering. Use the command below for every recurring job. Never invent an identifier, meter reading, agreement, response or approval. Ambiguous names require choosing from the candidates. Include the operator's name through `--actor` when recording changes.
 
-Fill this in once. A worker with context knows. A worker without it guesses.
+This is a private operator database, one business per database. Use the database owner connection locally or a reviewed server operator role. Do not expose credentials or records through a browser API. Review rendered files before sharing them. Export before schema changes.
 
-## How to work
+Drafts stay in `drafts/`. Nothing sends. No payments, billing calculation, tariff advice, live meter control, supply switching or disconnection actions exist. Confirming a move records external evidence only. Compliance findings prompt human review and do not certify compliance. Never delete data without explicit operator authority.
 
-1. **Take a brief, not a script.** The operator describes the outcome. You run the right command and present the answer.
-2. **Read before you write.** Before drafting anything about a record, read its full history first.
-3. **Plain language.** Short sentences. No filler. Numbers in tables.
-4. **Silent success, loud problems.** No play-by-play. Say what broke and what you did about it.
-5. **Stop at the line.** Anything that sends, deletes, or faces a customer waits for a yes in this session.
+## Routing
 
-## Routing table: one right way for each recurring job
-
-| When the operator asks for... | Use this |
+| Request | Command |
 |---|---|
-| <!-- TODO(author): one row per slash command --> | `/...` |
+| Review the commercial account register | `/accounts` |
+| Review service locations and identifiers | `/service-points` |
+| Review all agreement dates | `/agreements` |
+| Review notice windows and expired agreements | `/renewals-due` |
+| Review cumulative register history and interval usage | `/meter-reads` |
+| Review missing, old, estimated and high readings | `/reading-exceptions` |
+| Review open responses by owner and due date | `/case-queue` |
+| Review move requests needing confirmation | `/move-desk` |
+| Review the combined exceptions list | `/attention` |
+| Review accuracy, retention and internal service exceptions | `/compliance` |
+| Write the Monday utility service review | `/weekly-review` |
+| Answer ten cross-record questions | `/insights` |
+| Read an account with its service points, cases and notes | `/account` |
+| Add a verified account, service point, agreement, meter, case or move | `/add` |
+| Record a cumulative meter reading with its evidence | `/record-reading` |
+| Record a case resolution | `/resolve-case` |
+| Record a verified contact accuracy review | `/review-account` |
+| Record an externally confirmed move request | `/confirm-move` |
+| Log an account note | `/log` |
+| Draft the weekly service review | `/draft-weekly-review` |
+| Draft an agreement review brief | `/draft-renewal` |
+| Draft a case response fact pack | `/draft-case-response` |
+| Import Salesforce Details Only report exports | `/import` |
+| Export all records and audit history to JSON | `/export` |
+| Review the latest hundred recorded changes | `/history` |
+| Render three read-only branded review pages | `/view` |
+| Render account, case and renewal paperwork | `/documents` |
+| Change fields, workflow rules or documents in plain language | `/customise` |
+| Add a read-only page from a question | `/new-view` |
 
-If an ask fits nothing here, run the CLI directly (`npm run <cli> -- --help`) and then propose a new command for it.
+## Files
 
-## Hard rules
+`scripts/utility.mjs` is the CLI. `scripts/lib/domain.mjs` holds the domain queries and mutations. `scripts/lib/import.mjs` is the CSV importer. `supabase/migrations/` contains plain database migrations. `DATABASE_URL` selects shared Postgres; without it PGlite uses `.data/db`. `views.json` and `documents.json` define branded output. `docs/cli.md` documents record formats. All runtimes use `.claude/commands/`.
 
-- Never send email or messages from here. Draft to `drafts/`, a person sends.
-- Never delete records without an explicit yes in this session. Prefer marking closed or archived.
-- Never invent a record. If a name is ambiguous, list the candidates and ask.
-- The database is the source of truth. If the answer is not in it, say so.
-
-## Where things live
-
-- `scripts/` the CLI. `scripts/lib/db.mjs` picks `DATABASE_URL` (Postgres, Supabase) or the embedded database in `.data/`.
-- `supabase/migrations/` the schema, plain SQL. `npm run migrate` applies it.
-- `.claude/commands/` the slash commands. Add one every time the same ask comes twice.
-- `docs/` the thesis and the guide for moving off Salesforce Energy & Utilities Cloud.
-
-Built by Enterprise DNA. Installed and run for you as part of Omni: https://enterprisedna.co/omni/instead-of/salesforce-energy-utilities-cloud
+Built by Enterprise DNA. Installation and ongoing operation: https://enterprisedna.co/omni/book/?offer=replace-software&utm_campaign=salesforce-energy-utilities-cloud

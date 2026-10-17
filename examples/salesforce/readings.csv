@@ -1,0 +1,3 @@
+Reading ID,Meter ID,Read Date,Register Value,Reading Type,Evidence
+a04EXAMPLE000001,a03EXAMPLE000001,2026-01-01,1000,actual,Example register export
+a04EXAMPLE000002,a03EXAMPLE000001,2026-02-01,7000,actual,Example register export

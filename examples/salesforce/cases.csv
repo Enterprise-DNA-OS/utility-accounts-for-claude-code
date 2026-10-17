@@ -1,0 +1,2 @@
+Case ID,Service Point ID,Subject,Category,Case Owner,Opened Date,Due Date,Status,Disputed Amount,Currency
+500EXAMPLE000001,a01EXAMPLE000001,Example invoice question,billing-query,Casey,2026-02-01,2026-02-10,open,150,NZD

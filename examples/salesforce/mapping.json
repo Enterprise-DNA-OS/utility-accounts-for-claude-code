@@ -1,0 +1,9 @@
+{
+  "accounts": {
+    "Organisation": "name",
+    "Account Manager": "owner"
+  },
+  "service_points": {
+    "ICP": "identifier"
+  }
+}

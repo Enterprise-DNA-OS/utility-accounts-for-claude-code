@@ -1,115 +1,118 @@
-<h1 align="center">Utility Accounts for Claude Code</h1>
+# Utility Accounts for Claude Code
 
-<p align="center">
-  <strong>The open-source utility account operations system that is just a database and Claude Code.</strong>
-</p>
+Commercial utility account operations in a database you own. Built by Enterprise DNA. Free under the MIT licence. Works with Claude Code, Codex, OpenCode or Cursor.
 
-<p align="center">
-  Created by <a href="https://www.enterprisedna.co"><strong>Enterprise DNA</strong></a>. Free and open source. Works with Claude Code, Codex, OpenCode or Cursor.
-</p>
+| Do it yourself | We customise it | We run it for you |
+|---|---|---|
+| Free. Clone it, run the demo, import your reports. | Your fields, agreement rules, report mappings and team views. | Installed, connected and operated through Omni by Enterprise DNA. One setup fee, then a retainer. |
+| [Quick start](#quick-start) | [Get your version built](https://enterprisedna.co/omni/book/?offer=replace-software&utm_campaign=salesforce-energy-utilities-cloud&utm_medium=readme) | [Talk to Sam](https://enterprisedna.co/omni/book/?offer=replace-software&utm_campaign=salesforce-energy-utilities-cloud&utm_medium=readme) |
 
-<!-- three-doors -->
-<table align="center">
-  <tr>
-    <td align="center"><strong>Do it yourself</strong><br/>Clone it, run it, own it. Free, MIT.<br/><a href="#quick-start">Quick start</a></td>
-    <td align="center"><strong>We customise it</strong><br/>Your fields, your rules, your Salesforce Energy & Utilities Cloud data brought across.<br/><a href="https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=salesforce-energy-utilities-cloud">Book a call</a></td>
-    <td align="center"><strong>We run it for you</strong><br/>Installed, connected and operated inside Omni. Setup fee, then a retainer.<br/><a href="https://enterprisedna.co/omni/instead-of/salesforce-energy-utilities-cloud?utm_source=github&utm_medium=readme&utm_campaign=salesforce-energy-utilities-cloud">How it works</a></td>
-  </tr>
-</table>
+## What it does
 
-<p align="center">
-  <a href="#what-is-this">What is this</a> &bull;
-  <a href="#why-no-front-end">Why no front end</a> &bull;
-  <a href="#quick-start">Quick start</a> &bull;
-  <a href="#the-commands">Commands</a> &bull;
-  <a href="#instead-of-salesforce-energy-utilities-cloud">Instead of Salesforce Energy & Utilities Cloud</a> &bull;
-  <a href="#want-it-installed-and-run-for-you">Installed for you</a> &bull;
-  <a href="#license">License</a>
-</p>
+A commercial service team reviews agreement dates, investigates meter readings, follows up cases and confirms move records. This system links those records by account and service point. Ask which renewals also have unresolved cases, which sites have estimated readings and billing questions, and who owns the overdue responses.
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Node-20+-339933?style=flat-square" alt="Node 20+" />
-  <img src="https://img.shields.io/badge/PostgreSQL-any-336791?style=flat-square" alt="PostgreSQL" />
-  <img src="https://img.shields.io/badge/PGlite-embedded-3ecf8e?style=flat-square" alt="PGlite" />
-  <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="MIT License" />
-</p>
+Salesforce Energy & Utilities Cloud Service Core lists US$250 per user/month billed annually. Twenty-five seats model US$75,000 a year before implementation. That is a list-price calculation, not a verified customer invoice. [Official pricing](https://www.salesforce.com/ap/energy-utilities/cloud/pricing/), checked 17 October 2026. See [research](docs/research.md) for selection evidence and limits.
 
----
-
-## What is this
-
-Utility Accounts for Claude Code does the job you pay Salesforce Energy & Utilities Cloud for, as a Postgres database and a set of agent commands. There is no web front end. You open the folder in [Claude Code](https://claude.com/claude-code) (or Codex, OpenCode, Cursor: see `AGENTS.md`) and ask for what you want in plain language. It runs the right query, and it can answer questions the Salesforce Energy & Utilities Cloud dashboard cannot.
-
-<!-- TODO(author): the annual bill. One sentence: what a 10 to 50 person business typically pays Salesforce Energy & Utilities Cloud per year, all in, with a source. -->
-
-Want the same thing with a web front end, or built on a different stack? That is a customisation, and it is exactly what Enterprise DNA does: [book a call](https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=salesforce-energy-utilities-cloud).
-
-<!-- TODO(author): two or three sentences on what this specific product covers and who it is for. -->
-
-## Why no front end
-
-- The front end was only ever there because the database was hard to talk to. That is no longer true.
-- Your data sits in plain Postgres tables you own. Any tool can read them. No export, no lock-in.
-- No seats, no tiers, no add-ons. Read [docs/why-no-front-end.md](docs/why-no-front-end.md) for the honest trade-offs too.
+This base covers commercial account record work. It does not replace a utility billing engine, calculate tariffs, move money, control meters, decide disconnections or perform regulated supply switching. It needs no third-party connection to run. Read the [scope](docs/why-no-front-end.md) before choosing it.
 
 ## Quick start
-
-Sixty seconds, no database install (an embedded Postgres runs inside Node):
 
 ```bash
 git clone https://github.com/Enterprise-DNA-OS/utility-accounts-for-claude-code.git
 cd utility-accounts-for-claude-code
 npm install
+npm test
 npm run demo
 ```
 
-Then open the folder in Claude Code and type a slash command. <!-- TODO(author): name the first command to try. -->
+The demo creates and removes a temporary database. For a persistent fictional portfolio run `npm run migrate` then `npm run seed`. Open the folder in your coding agent and ask `/weekly-review`. To start with real records run migrate without seed, then use `/import`.
 
-### Use it with your own Postgres or Supabase
+Node 20.11 or later. No database install is needed: PGlite runs the same database engine locally. Set DATABASE_URL to your private Postgres database for shared operator use. The supplied adapter verifies TLS for remote connections. Do not expose the database through a public API. Configure roles and backups before multi-user operation.
 
-Copy `.env.example` to `.env`, set `DATABASE_URL`, then `npm run migrate`. Same commands, shared data, no per-seat fee.
+## Commands
 
-## The commands
-
-<!-- TODO(author): a table of the slash commands in .claude/commands and what each one does. -->
-
-| Command | What it does |
+| Job | Command |
 |---|---|
-| `/...` | ... |
+| Review the commercial account register | `/accounts` |
+| Review service locations and identifiers | `/service-points` |
+| Review all agreement dates | `/agreements` |
+| Review notice windows and expired agreements | `/renewals-due` |
+| Review cumulative register history and interval usage | `/meter-reads` |
+| Review missing, old, estimated and high readings | `/reading-exceptions` |
+| Review open responses by owner and due date | `/case-queue` |
+| Review move requests needing confirmation | `/move-desk` |
+| Review the combined exceptions list | `/attention` |
+| Review accuracy, retention and internal service exceptions | `/compliance` |
+| Write the Monday utility service review | `/weekly-review` |
+| Answer ten cross-record questions | `/insights` |
+| Read an account with its service points, cases and notes | `/account` |
+| Add a verified account, service point, agreement, meter, case or move | `/add` |
+| Record a cumulative meter reading with its evidence | `/record-reading` |
+| Record a case resolution | `/resolve-case` |
+| Record a verified contact accuracy review | `/review-account` |
+| Record an externally confirmed move request | `/confirm-move` |
+| Log an account note | `/log` |
+| Draft the weekly service review | `/draft-weekly-review` |
+| Draft an agreement review brief | `/draft-renewal` |
+| Draft a case response fact pack | `/draft-case-response` |
+| Import Salesforce Details Only report exports | `/import` |
+| Export all records and audit history to JSON | `/export` |
+| Review the latest hundred recorded changes | `/history` |
+| Render three read-only branded review pages | `/view` |
+| Render account, case and renewal paperwork | `/documents` |
+| Change fields, workflow rules or documents in plain language | `/customise` |
+| Add a read-only page from a question | `/new-view` |
 
-## Instead of salesforce-energy-utilities-cloud
+Every read supports `--json`. See [CLI formats](docs/cli.md). Additions and outcomes are audited with an operator label. Repeating the demo seed does not duplicate records.
 
-<!-- TODO(author): how to bring data across from Salesforce Energy & Utilities Cloud; link docs/replace-salesforce-energy-utilities-cloud.md -->
+## Ten questions answered from your records
 
-## Architecture
+See `/insights` for the tested answers to all ten. These combine records beyond a single standard list; no claim is made that Salesforce cannot be configured to answer them.
 
-```
-utility-accounts-for-claude-code/
-  CLAUDE.md                 how the operator wants this run (routing table + house rules)
-  AGENTS.md                 the same, for Codex / OpenCode / Cursor / Gemini CLI
-  .claude/commands/         the slash commands
-  scripts/                  the CLI the commands drive
-  scripts/lib/db.mjs        one adapter: DATABASE_URL (pg) or embedded PGlite
-  supabase/migrations/      plain SQL schema
-  supabase/seed.sql         demo data
-  docs/                     the thesis and the migration guide
-```
+1. Which expiring agreements also have unresolved service cases?
+2. Which sites combine estimated readings with billing questions?
+3. Which account owners have the most overdue responses?
+4. Which active service points have no agreement covering today?
+5. Which meters exceed their site limit on the latest interval?
+6. Which upcoming moves still have open cases?
+7. Which multi-site accounts need a contact accuracy review?
+8. What disputed amounts remain open, separated by currency?
+9. Which meters have no actual reading within the last 35 days?
+10. Which account retention reviews are overdue alongside open cases?
 
-## Built for coding agents
+## Your first hour: ten things to ask for
 
-The database, CLI and command recipes work with Claude Code, Codex, OpenCode or Cursor. Ask your coding agent for a new command and have it implement and test the change against the same records.
+1. Show me the agreements whose notice window has opened.
+2. Which of those sites also has an unresolved case?
+3. Show me every estimated or stale reading.
+4. Explain the Freezer main usage jump from the actual register history.
+5. Who owns the overdue response on the Workshop complaint?
+6. Draft a fact pack for that case without promising a resolution.
+7. Which move requests need confirmation this week?
+8. Put our business name and logo on the account review.
+9. Import our Details Only reports as a dry run and show ignored columns.
+10. Add our agreement review owner field and include it in the renewal brief.
 
-## Contributing
+## Views and paperwork
 
-Issues and pull requests are welcome. Keep the shape: plain SQL, a small CLI, a slash command per recurring job, no front end.
+`npm run view` renders this week, agreement dates and reading review as read-only branded HTML. `npm run docs` renders an account review per account, a case fact pack per case and a renewal brief per active agreement. Edit `brand.json` for name, colours and logo. Print the HTML to PDF if needed. The files remain private until an authorised person shares them.
 
-## Want it installed and run for you?
+`/draft-weekly-review`, `/draft-renewal` and `/draft-case-response` create editable drafts with current facts. Nothing sends. `/customise` changes fields or rules through a migration; `/new-view` adds a read-only review page.
 
-Enterprise DNA installs Utility Accounts for Claude Code for your business, migrates your Salesforce Energy & Utilities Cloud data, connects it to the rest of your tools, and runs it for you as part of **Omni**, our managed Command Center. One setup fee, then a monthly retainer.
+## Bring your history
 
-- Book a call: [enterprisedna.co/omni/book](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_medium=readme&utm_campaign=salesforce-energy-utilities-cloud)
-- Read more: [enterprisedna.co/omni/instead-of/salesforce-energy-utilities-cloud](https://enterprisedna.co/omni/instead-of/salesforce-energy-utilities-cloud?utm_source=github&utm_medium=readme&utm_campaign=salesforce-energy-utilities-cloud)
+[Switch guide](docs/replace-salesforce-energy-utilities-cloud.md). Export Details Only reports, map custom labels, then run `npm run utility -- import salesforce <folder> --dry-run`. After reviewing counts, repeat without the dry-run flag. One command imports all supported files in dependency order. Unchanged reruns add nothing; changed rows stop rather than overwriting operator work. The examples show the required report columns, not a universal Salesforce template.
 
-## License
+## Checks and boundaries
 
-MIT. Copyright (c) 2026 Enterprise DNA.
+[Compliance](docs/compliance.md) cites NZ accuracy and retention principles and separates them from internal service policies. A 35-day reading alert is an operator threshold, not law. Checks prompt a human review; they do not certify compliance. No supply-control or residential medical-dependency process is implemented.
+
+Every domain table has RLS, no public policies and restricted grants. Views use caller permissions. One business uses one private database. The database owner is trusted; audit history is not a tamper-proof regulatory archive. Secure drafts, exports and backups like the source data.
+
+## Verification
+
+`npm test` creates a temporary database, migrates and seeds twice, runs every read, checks all ten insights, exercises mutations, validates ambiguous matches, rejects reversed readings and overlapping agreements, tests import rollback and repeat behaviour, verifies RLS and renders all documents and views. `npm run demo` runs three real reviews and renders output in temporary storage. CI runs the suite on Linux and Windows with Node 20 and 22. CI execution status is separate from local test results.
+
+## Licence
+
+MIT. Copyright 2026 Enterprise DNA. Salesforce is a trademark of Salesforce, Inc. This independent project is not affiliated with or endorsed by Salesforce.
